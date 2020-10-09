@@ -1,0 +1,27 @@
+raw_data_path: /data00/home/panxiao.94/experiments/pmnmt/experiments/toy/data/raw/dev
+merged_output_path: /data00/home/panxiao.94/experiments/pmnmt/experiments/toy/merged_data
+output_main_path: /data00/home/panxiao.94/experiments/pmnmt/experiments/toy/data/prep/dev
+final_vocab_path: /data00/home/panxiao.94/experiments/pmnmt/experiments/toy/vocab
+configs_subdir: configs
+cleaned_subdir: cleaned
+logs_subdir: logs
+vocab_subdir: vocab
+output_subdir: output
+preprocess_steps_list: clean:subword:merge
+file_prefix: dev
+learn: false
+subword_bpe_merge_ops: 600
+pairs: en_de;en_cs
+directions: en2de;de2en;en2cs;cs2en
+languages: en;de;cs
+default_pairs:
+  deduplicate: false
+  keep_lines_percent: '1.0'
+  shuffle: false
+default_langs:
+  do_normalize_punctuations: true
+  tokenizer: MosesTokenizer
+ras:
+  dict_path: /data00/home/panxiao.94/experiments/pmnmt/experiments/toy/dictionaries
+  vocab_size: 1000
+

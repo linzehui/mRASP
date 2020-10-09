@@ -1,0 +1,11 @@
+beam_size: 5
+eval_batch_size: 16
+max_len_a: 0
+max_len_b: 256
+length_penalty: 0.5
+test_data_path: /data00/home/panxiao.94/experiments/pmnmt/experiments/toy/data/test
+testset: en2de/wmt14_head100
+klist: 2:3:5
+bleu_type: tok
+post_command: "| sed -e s'|LANG_TOK_DE ||g' "
+ref_tokenizer: MosesTokenizer

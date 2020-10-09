@@ -1,0 +1,4 @@
+subword-nmt
+sacrebleu
+sacremoses
+fairseq
