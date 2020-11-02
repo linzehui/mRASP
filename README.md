@@ -4,6 +4,9 @@ This is the repo for EMNLP2020 paper Pre-training Multilingual Neural Machine Tr
 
 [[paper](https://arxiv.org/abs/2010.03142)]
 
+<img src="https://github.com/linzehui/mRASP/blob/master/logo.png" width="30%" height="50%">
+
+
 ## Introduction
 
 mRASP, representing multilingual Random Aligned Substitution Pre-training, is a pre-trained multilingual neural machine translation model. mRASP is pre-trained on large scale multilingual corpus containing 32 language pairs. The obtained model can be further ﬁne-tuned on downstream language pairs. To effectively bring words and phrases with similar meaning closer in representation across multiple languages, we introduce Random Aligned Substitution (RAS) technique. Extensive experiments conducted on different scenarios demonstrate the efficacy of mRASP. For detailed information please refer to the paper.  
