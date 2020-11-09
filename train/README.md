@@ -11,6 +11,7 @@ bash ${PROJECT_ROOT}/train/pre-train.sh ${pretrain_config_yml}
 bash ${PROJECT_ROOT}/train/fine-tune.sh ${finetune_config_yml} ${eval_config_yml}
 ```
 
+## Pre-train & Fine-tune
 ### Example
 #### pre-training config
 ```text
@@ -103,3 +104,10 @@ ref_tokenizer: MosesTokenizer
     * `bin` denotes the binarized data that is ready for fairseq to use.
 * `klist` denotes the values of k of top-k checkpoint average method, the values are separated by ':'
 * `bleu_type` indicates the bleu calculation criterion: tok-bleu(`tok`) or detok-bleu(`detok`)
+
+## Concatenate vocabulary
+If you want to support a new language, you must add new tokens to the existing vocabulary and expand the embedding parameters in the checkpoint.
+```bash
+python ${PROJECT_ROOT}/train/scripts/concat_merge_vocab.py --checkpoint ${CKPT} --now-vocab ${CURRENT_VOCAB} --to-append-vocab ${NEW_VOCAB} --output-dir ${OUTPUT_DIR}
+```
+After running the above command, you will get a new checkpoint and a new vocab.
