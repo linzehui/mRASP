@@ -9,13 +9,6 @@ pip install subword-nmt
 pip install mosestokenizer
 pip install kytea
 ```
-## Installation
-```bash
-git clone https://github.com/linzehui/mRASP
-cd mRASP
-pip install .
-```
-
 
 ## The preprocess pipeline
 
@@ -49,6 +42,8 @@ output_subdir: output
 final_vocab_path: ${PROJECT_ROOT}/experiments/toy/vocab
 preprocess_steps_list: clean:subword:merge:ras
 learn: false
+mono: false
+mono_resample: /opt/tiger/mrasp/data/ratio.yml
 subword_bpe_merge_ops: 600
 maximum_vocabulary_size: 1000
 minimum_frequency: 5
@@ -65,6 +60,10 @@ default_langs:
 ras:
   dict_path: ${PROJECT_ROOT}/experiments/toy/dictionaries
   vocab_size: 1000
+  max_dep: 3
+  multi_dict_path: /opt/tiger/mrasp/data/dict/dict.merge_dep3.txt
+  languages: zh;en;bg
+  target_languages: en;af;ar;be;bg;cs;de;el;eo;es;et;fi;fr;gu;he;hi;it;ja;ka;kk;ko;lt;lv;mn;ms;mt;my;ro;ru;sr;tr;vi;zh
 ```
 * `file_prefix` denotes the type of the file (`train` or `dev`)
 * `raw_data_path` denotes the path of raw data, the directory tree structure must strictly follow the example:
@@ -129,7 +128,10 @@ ras:
 * `preprocess_steps_list`: the preprocess steps involved in one pass, split by ':'. Normally you should run all 4
  steps together. Only when the output file of the previous step already exists, the next step can be executed. That means,
  "clean:merge" is illegal; "subword:merge" can only be properly executed if "clean" is already previously executed. Additionally, the step `ras` is only valid for training set.
-
+* `mono` denotes the data is monolingual or not. There is slight difference for monolingual data and parallel data. `mono_resample` contains yaml file specifying the sampling ratio of each language, if not provided, no resample procedure will be conducted.
+* `ras_multi_dict_path` denotes the multi-way parallel dict, if provided, use the provided multi-way parallel dict, otherwise use MUSE bilingual dict by default.
+* `ras_max_depth` and `ras_languages` are only valid when `ras_multi_dict_path` is set. `ras_languages` means the languages that can be replaced to other languages, if not set, use `languages` by default. `ras_max_depth` means the maximum valid depth of the multi-way dict.
+* `ras_target_languages` means valid target languages of RAS procedure.
 
 ## Binarize
 Run the command

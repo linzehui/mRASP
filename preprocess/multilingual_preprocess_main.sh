@@ -69,15 +69,15 @@ if [[ " ${preprocess_steps[@]} " =~ "clean"  ]]; then
         python ${repo_dir}/tools/misc/multilingual_preprocess_yml_generator.py ${main_config_yml} ${lang} ${file_prefix}
     done
 
-    if [[ ${learn} == "true" ]]; then
+    if [[ ${learn} == "true" || ${mono} == "true" ]]; then
         for lang in "${langs[@]}"
         do
             echo "******** Clean & Tokenize ${lang} Mono Data ********"
             if [[ ${file_prefix} == "train" ]]; then
                 (python ${repo_dir}/tools/misc/multilingual_preprocess_yml_generator.py ${main_config_yml} ${lang} ${file_prefix} &&
-                source ${repo_dir}/tools/data_preprocess/prep_mono.sh ${configs_path}/preprocess_${lang}.yml ${raw_data_path}/${lang} ${cleaned_path}/${lang} &>${logs_path}/1_preprocess_mono_${lang}.log) &
+                source ${repo_dir}/tools/data_preprocess/prep_mono.sh ${configs_path}/preprocess_${lang}.yml ${raw_data_path}/${lang} ${cleaned_path}/${lang} &>${logs_path}/1_preprocess_mono_${lang}.log)
             else
-                python ${repo_dir}/tools/misc/multilingual_preprocess_yml_generator.py ${main_config_yml} ${lang} ${file_prefix} &
+                python ${repo_dir}/tools/misc/multilingual_preprocess_yml_generator.py ${main_config_yml} ${lang} ${file_prefix}
             fi
         done
 
@@ -135,9 +135,15 @@ fi
 
 # 4. RAS
 if [[ ${file_prefix} == "train" && " ${preprocess_steps[@]} " =~ "ras" ]]; then
-    echo "======== 4. Random Alignment Substitution BEGIN ========"
-    source ${repo_dir}/tools/ras/random_alignment_substitution.sh &>${logs_path}/4_ras.log
-    echo "======== 4. Random Alignment Substitution ALL DONE ========"
+    if [[ -z ${ras_multi_dict_path} ]]; then
+        echo "======== 4. Random Alignment Substitution BEGIN ========"
+        source ${repo_dir}/tools/ras/random_alignment_substitution.sh &>${logs_path}/4_ras.log
+        echo "======== 4. Random Alignment Substitution ALL DONE ========"
+    else
+        echo "======== 4. Random Alignment Substitution W/ Multi BEGIN ========"
+        source ${repo_dir}/tools/ras/random_alignment_substitution_w_multi.sh &>${logs_path}/4_ras_multi.log
+        echo "======== 4. Random Alignment Substitution W/ Multi ALL DONE ========"
+    fi
 fi
 
 rm -r ${repo_dir}/mp_tmp

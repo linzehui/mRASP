@@ -34,8 +34,10 @@ mRASP, representing multilingual Random Aligned Substitution Pre-training, is a 
 │   │   │   └── multiprocess.sh
 │   │   ├── ras/
 │   │   │   ├── __init__.py
-│   │   │   ├── random_alignment_substitution.sh    # RAS scripts
-│   │   │   └── replace_word.py
+│   │   │   ├── random_alignment_substitution.sh
+│   │   │   ├── random_alignment_substitution_w_multi.sh 
+│   │   │   ├── replace_word.py  # RAS using MUSE bilingual dict
+│   │   │   └── replace_word_w_multi.py  # RAS using multi-way parallel dict
 │   │   └── subword/
 │   │       ├── __init__.py
 │   │       ├── multilingual_apply_subword_vocab.sh     # script to only apply subword (w/o learning new vocab)
@@ -104,7 +106,12 @@ bash ${PROJECT_ROOT}/preprocess/multilingual_preprocess_main.sh ${PROJECT_ROOT}/
 ```
 We create a multilingual development set to help choose the best pre-trained checkpoint.
 
-step3: pre-train on RASed multilingual corpus
+step3: binarize data
+```bash
+bash ${PROJECT_ROOT}/experiments/example/bin_pretrain.sh
+```
+
+step4: pre-train on RASed multilingual corpus
 ```bash
 export CUDA_VISIBLE_DEVICES=0,1,2,3 && bash ${PROJECT_ROOT}/train/pre-train.sh ${PROJECT_ROOT}/experiments/example/configs/train/pre-train/transformer_big.yml
 ```
@@ -121,7 +128,7 @@ The command above will do: clean and subword.
 
 step2: binarize data
 ```bash
-bash ${PROJECT_ROOT}/experiments/example/bin.sh
+bash ${PROJECT_ROOT}/experiments/example/bin_finetune.sh
 ```
 
 step3: fine-tune on specific language pairs

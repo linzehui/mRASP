@@ -1,0 +1,45 @@
+raw_data_path: /opt/tiger/mrasp/data/newscrawl
+merged_output_path: /opt/tiger/mrasp/data/merged_data/cs
+output_main_path: /opt/tiger/mrasp/data/output/cs
+final_vocab_path: /opt/tiger/mrasp/data/vocab
+configs_subdir: configs
+cleaned_subdir: cleaned
+logs_subdir: logs
+vocab_subdir: vocab
+output_subdir: output
+preprocess_steps_list: clean:subword:merge:ras
+file_prefix: train
+learn: false
+mono: true
+mono_resample: /opt/tiger/mrasp/data/ratio.yml
+subword_bpe_merge_ops: 32000
+maximum_vocabulary_size: 1000
+minimum_frequency: 5
+pairs: /
+directions: cs2cs
+languages: cs
+default_pairs:
+  deduplicate: true
+  keep_lines_percent: '1.0'
+  shuffle: true
+default_langs:
+  do_normalize_punctuations: true
+  tokenizer: MosesTokenizer
+gu:
+  do_normalize_punctuations: true
+  tokenizer: None
+ja:
+  do_normalize_punctuations: true
+  tokenizer: None
+zh:
+  do_normalize_punctuations: true
+  tokenizer: jieba
+ras:
+  dict_path: /opt/tiger/mrasp/data/dict
+  vocab_size: 100000000
+  replace_prob: 0.9
+  max_dep: 3
+  multi_dict_path: /opt/tiger/mrasp/data/dict/dict.merge_dep3.txt
+  languages: cs
+  target_languages: en;af;ar;be;bg;cs;de;el;eo;es;et;fi;fr;gu;he;hi;it;ja;ka;kk;ko;lt;lv;mn;ms;mt;my;ro;ru;sr;tr;vi;zh
+

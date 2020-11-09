@@ -9,6 +9,12 @@ declare -a source_files=()
 declare -a new_source_files=()
 declare -a new_target_files=()
 
+# resample
+if [[ ${mono} == "true" && ! -z ${mono_resample} && -f ${mono_resample} ]]; then
+    echo "mono_resample file exists!"
+    eval $(parse_yaml ${mono_resample})
+fi
+
 echo "-->=== Add Lang Token to front of Training Corpus ===<--"
 for direc in "${direcs[@]}"
 do
@@ -19,6 +25,9 @@ do
         subdir="${langs[0]}_${langs[1]}"
         _subdir="${langs[1]}_${langs[0]}"
         [[ ! -d ${output_path}/${subdir} ]] && subdir=${_subdir}
+        if [[ ${mono} == "true" && ${langs[0]} == ${langs[1]} ]]; then
+            subdir=${langs[0]}
+        fi
     else
         subdir=${direc}
     fi
@@ -26,6 +35,40 @@ do
 
     src_file="${from_path}/${file_prefix}.${langs[0]}"
     trg_file="${from_path}/${file_prefix}.${langs[1]}"
+
+    if [[ ! -z ${!direc} ]]; then
+        # sample
+        _random_source=`date +%N`
+        ratio_f=${!direc}
+        ratio_int=${ratio_f%.*}
+        echo "===== $(date "+%Y-%m-%d %H:%M:%S") ===== BEGIN sampling ${direc} with ratio ${!direc} =====" >&2
+        if [[ ${ratio_int} -eq 0 ]]; then
+            all_num=`wc -l < ${src_file}`
+            reserved_num_f=`awk  -vn1="${all_num}" -vn2="${!direc}" 'BEGIN{printf ("%.8f\n",n1*n2)}'`
+            reserved_num=${reserved_num_f%.*}
+            shuf --random-source=<(get_seeded_random ${_random_source}) ${src_file} | head -n ${reserved_num} > ${src_file}.sample
+            src_file=${src_file}.sample
+            trg_file=${trg_file}.sample
+        else
+            remain_cnt=${ratio_int}
+            # up-sample
+            [[ -f ${src_file}.sample ]] && rm ${src_file}.sample
+            [[ -f ${trg_file}.sample ]] && rm ${trg_file}.sample
+            while [[ ${remain_cnt} -gt 0 ]]
+            do
+                cat ${src_file} >> ${src_file}.sample
+                remain_cnt=$[${remain_cnt}-1]
+            done
+            sample_ratio=`awk  -vn1="${ratio_f}" -vn2="${ratio_int}" 'BEGIN{printf ("%.8f\n",n1-n2)}'`
+            all_num=`wc -l < ${src_file}`
+            reserved_num_f=`awk  -vn1="${all_num}" -vn2="${sample_ratio}" 'BEGIN{printf ("%.8f\n",n1*n2)}'`
+            reserved_num=${reserved_num_f%.*}
+            shuf --random-source=<(get_seeded_random ${_random_source}) ${src_file} | head -n ${reserved_num} >> ${src_file}.sample
+            src_file=${src_file}.sample
+            trg_file=${trg_file}.sample
+        fi
+    fi
+
     base_src_filename=`basename ${src_file}`
     new_src_filename="${from_path}/new_${base_src_filename}"
     if [[ ! -f ${new_src_filename} ]]; then
@@ -63,6 +106,7 @@ if [[ ${file_prefix} == "train" && ${learn} == "true" ]]; then
 fi
 
 
+# shuffle
 echo "" >&2
 echo "===== $(date "+%Y-%m-%d %H:%M:%S") ===== BEGIN shuffling Merged Dataset =====" >&2
 random_source=`date +%N`

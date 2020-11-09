@@ -2,3 +2,5 @@ subword-nmt
 sacrebleu
 sacremoses
 fairseq
+kytea
+six

@@ -9,6 +9,14 @@ elif [[ ${tokenizer} == "MosesTokenizer" ]]; then
 
 elif [[ ${tokenizer} == "Char" ]]; then
     process_cmd="${process_cmd} | perl ${tokenize_script_dir}/to_character.pl -l ${language} -t ${num_cpus}"
+
+elif [[ ${tokenizer} == "jieba" ]]; then
+    process_cmd="${process_cmd} | python -m jieba -d "
+
+elif [[ ${tokenizer} == "kytea" ]]; then
+    [[ -z ${kytea_model} ]] && echo "Please provide ${kytea_model}" && exit 1;
+    process_cmd="${process_cmd} | python ${tokenize_script_dir}/kytea.py -m ${kytea_model}"
+
 else
     echo "    Unrecognized tokenizer ${tokenizer}"
     exit 1;

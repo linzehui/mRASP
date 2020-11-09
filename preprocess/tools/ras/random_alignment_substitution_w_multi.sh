@@ -1,29 +1,10 @@
 #!/usr/bin/env bash
 
-dict_path_root=`dirname ${ras_dict_path}`
-dict_path_basename=`basename ${ras_dict_path}`
-
-# get MUSE dictionaries
-echo "Down load MUSE dictionaries ... ..."
-cd ${dict_path_root}
-if [[ ! -d ${dict_path_basename} ]]; then
-    if [[ ! -f dictionaries.tar.gz ]]; then
-        wget https://dl.fbaipublicfiles.com/arrival/dictionaries.tar.gz
-    fi
-    mkdir ${dict_path_basename} ${dict_path_basename}_tmp
-    tar -xvzf dictionaries.tar.gz -C ${dict_path_basename}_tmp
-    mv ${dict_path_basename}_tmp/dictionaries/[a-z]?-[a-z]?.txt ${dict_path_basename}/
-    rm -r ${dict_path_basename}_tmp
-    if [[ -f dictionaries.tar.gz ]]; then
-        rm dictionaries.tar.gz
-    fi
-fi
-
 cd ${repo_dir}
 
 command=""
 
-for varname in dict_path replace_prob num_repeat vocab_size
+for varname in multi_dict_path replace_prob num_repeat vocab_size max_dep
 do
     ras_varname=ras_${varname}
     if [[ ${!ras_varname} ]]; then
@@ -31,11 +12,13 @@ do
     fi
 done
 
-# use default if `ras_target_languages` is not set
-[[ -z ${ras_target_languages} ]] && langs=${languages} || langs=${ras_target_languages}
+# use default if `ras_languages` and `ras_target_languages` is not set
+[[ -z ${ras_languages} ]] && langs=${languages} || langs=${ras_languages}
+[[ -z ${ras_target_languages} ]] && target_langs=${languages} || target_langs=${ras_target_languages}
 
 codes_file=${final_vocab_path}/codes.bpe.${subword_bpe_merge_ops}
-python -m tools.ras.replace_word --langs ${langs} ${command} --data_path ${merged_output_path}
+echo "--langs ${languages} --target-langs ${languages} ${command} --data_path ${merged_output_path}"
+python -m tools.ras.replace_word_w_multi --langs ${langs} --target-langs ${target_langs} ${command} --data_path ${merged_output_path}
 cat ${merged_output_path}/expanded_train.src | mulitprocess_pipeline "subword-nmt apply-bpe -c ${codes_file}" ${num_cpus} > ${merged_output_path}/expanded_train_bpe.src
 paste -d ' ' ${merged_output_path}/lang_indicator.src ${merged_output_path}/expanded_train_bpe.src > ${merged_output_path}/expanded_train_final.src
 rm ${merged_output_path}/lang_indicator.src ${merged_output_path}/expanded_train_bpe.src ${merged_output_path}/expanded_train.src
