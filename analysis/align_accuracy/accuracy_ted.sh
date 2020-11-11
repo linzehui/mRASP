@@ -11,12 +11,9 @@ echo "============================" >&2
 
 
 # settings, modify to your location before running the script
-MBART_DATA_PATH="/data00/home/panxiao.94/tmp/mrasp/retrieval/ted_multiway/bin/mbart"
-MRASP_DATA_PATH="/data00/home/panxiao.94/tmp/mrasp/retrieval/ted_multiway/bin/mrasp"
-SPM="/data00/home/panxiao.94/tmp/mrasp/retrieval/mbart/mbart.cc25/sentence.bpe.model"
-LANGDICT="/data00/home/panxiao.94/tmp/mrasp/retrieval/mbart/mbart.cc25/lang_dict.txt"
+MRASP_DATA_PATH="${repo_dir}/ted_multiway/bin/mrasp"
 CKPT_YAML="${repo_dir}/model_ckpts.yml"
-SAVEDIR="/data00/home/panxiao.94/tmp/mrasp/retrieval/sent_vec"
+SAVEDIR="${repo_dir}/sent_vec"
 
 
 # load checkpoints for mrasp-align, mrasp-noalign, and mbart
@@ -43,7 +40,7 @@ eval $(parse_yaml ${CKPT_YAML})
 # mRASP align
 for lang in ar cs de en es fr it ja ko nl ro ru tr vi zh
 do
-    python align_accuracy/get_sent_vec.py ${MRASP_DATA_PATH} \
+    python get_sent_vec.py ${MRASP_DATA_PATH} \
     --path ${align} --key align \
     --gen-subset test --task translation \
     -s ${lang} -t en \
@@ -64,6 +61,9 @@ done
 
 
 # Calculate Accuracy, replace the path to your location before run
-python retrieval/score.py /data00/home/panxiao.94/wmt_tools/toolbox/mbart \
+python score.py ${SAVEDIR}/align \
+    --langs ar,cs,de,en,es,fr,it,ja,ko,nl,ro,ru,tr,vi,zh
+
+python score.py ${SAVEDIR}/noalign \
     --langs ar,cs,de,en,es,fr,it,ja,ko,nl,ro,ru,tr,vi,zh
 
