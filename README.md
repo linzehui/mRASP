@@ -198,5 +198,26 @@ mBART is a pre-trained model trained on large-scale multilingual corpora. To ill
 | En-Cs | 978K | ⟶ | [en_cs_train](https://www.icloud.com/iclouddrive/0gSrgAUuCIwqI0X-_SMx0mrAQ#train) | [newstest19](https://www.icloud.com/iclouddrive/0oyjkTYnlXXikmyR82G6RYB2w#newstest19) | [en2cs](https://www.icloud.com/iclouddrive/0CmG9bFBhcKVrEuxCvIKsFiCA#checkpoint) | 18.0 | **19.9** |
 | En-De | 4.5M | ⟶ | [en_de_train](https://www.icloud.com/iclouddrive/0wBL1hyZ5wp_AQ2xe0J3hEuew#dataset) | [newstest19](https://www.icloud.com/iclouddrive/0jwrbrN6_mHjI0RrDkrA9kc_g#newstest19) | [en2de](https://www.icloud.com/iclouddrive/0cnfeN1qZWVzJ4Oaauz_K3tVQ#checkpoint) |  30.5 | **35.2** |
 | En-Fr | 40M | ⟶ | [en_fr_train](https://www.icloud.com/iclouddrive/08SAsEeoEtVSc02kE7lgrDeMg#dataset) | [newstest14](https://www.icloud.com/iclouddrive/0tHOKNsMgTu-3szmw6bHQlViw#newstest14) | [en2fr](https://www.icloud.com/iclouddrive/0-bzvB4PMmy7gFJVg24pL1hzQ#checkpoint) | 41.0 | **44.3** |
- 
- 
+
+## Citation
+If you are interested in mRASP, please consider citing our paper:
+```
+@inproceedings{lin-etal-2020-pre,
+    title = "Pre-training Multilingual Neural Machine Translation by Leveraging Alignment Information",
+    author = "Lin, Zehui  and
+      Pan, Xiao  and
+      Wang, Mingxuan  and
+      Qiu, Xipeng  and
+      Feng, Jiangtao  and
+      Zhou, Hao  and
+      Li, Lei",
+    booktitle = "Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)",
+    month = nov,
+    year = "2020",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/2020.emnlp-main.210",
+    pages = "2649--2663",
+}
+```
+
