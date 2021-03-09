@@ -159,9 +159,9 @@ We release checkpoints trained on 32-lang-pairs and 32-lang-pairs-RAS. We also e
 
 | Dataset | Checkpoint |
 | --- | --- |
-| 32-lang-pairs | [32-lang-pairs-ckp](https://www.icloud.com/iclouddrive/0C7D5K7D-QkX3E77rGdBwt-JQ#pretrain%5Fcheckpoint%5Flast%5Fwithout%5FRAS) |
-| 32-lang-pairs-RAS | [32-lang-pairs-RAS-ckp](https://www.icloud.com/iclouddrive/0qOUbmoRIUYEkIjEQ9TGyV6QQ#pretrain%5Fcheckpoint%5Flast%5FRAS) |
-| 58-lang-pairs-RAS | - |
+| Baseline-w/o-RAS | [mTransformer-6enc6dec](https://www.icloud.com/iclouddrive/0C7D5K7D-QkX3E77rGdBwt-JQ#pretrain%5Fcheckpoint%5Flast%5Fwithout%5FRAS) |
+| mRASP-PC32 | [mRASP-PC32-6enc6dec](https://www.icloud.com/iclouddrive/0qOUbmoRIUYEkIjEQ9TGyV6QQ#pretrain%5Fcheckpoint%5Flast%5FRAS) |
+| mRASP-PC58 | - |
 
 ## Fine-tuning Model
 
