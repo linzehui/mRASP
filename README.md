@@ -8,7 +8,7 @@ This is the repo for EMNLP2020 paper Pre-training Multilingual Neural Machine Tr
 
 
 ## News
-We have evolved our mRASP into mRASP2/mCOLT, which is a much stronger many-to-many multilingual model. Welcome to use mRASP2.
+We have evolved our mRASP into mRASP2/mCOLT, which is a much stronger many-to-many multilingual model. mRASP2 has been accepted by ACL2021 main conference. Welcome to use mRASP2.
 
 * [[paper](https://arxiv.org/abs/2105.09501)]
 * [[code](https://github.com/PANXiao1994/mRASP2)]
