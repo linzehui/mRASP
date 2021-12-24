@@ -148,7 +148,7 @@ export CUDA_VISIBLE_DEVICES=0,1,2 && export EVAL_GPU_INDEX=${eval_gpu_index} && 
 
 ### Dataset
 
-We merge 32 English-centric language pairs, resulting in 64 directed translation pairs in total. The original 32 language pairs corpus contains about 197M pairs of sentences. We get about 262M pairs of sentences after applying RAS, since we keep both the original sentences and the substituted sentences. We release both the original dataset and dataset after applying RAS.
+We merge 32 English-centric language pairs, resulting in 64 directed translation pairs in total. The original 32 language pairs corpus contains about 197M pairs of sentences. We get about 262M pairs of sentences after applying RAS, since we keep both the original sentences and the substituted sentences. We release both the original dataset and dataset after applying RAS. (Note that if you can't download the files, please replace the download link prefix "sf3-ttcdn-tos.pstatp.com" with "lf3-nlp-opensource.bytetos.com".)
 
 | Dataset | #Pair |
 | --- | --- |
